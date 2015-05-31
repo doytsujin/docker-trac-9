@@ -29,12 +29,14 @@ RUN apt-get install -y trac-xmlrpc
 RUN apt-get install -y vim
 
 EXPOSE 80 443
+
+RUN mkdir /var/tracwork
+COPY  trac.wsgi /var/tracwork/trac.wsgi
+COPY  httpd.conf /var/tracwork/httpd.conf
+COPY  docker-entrypoint.sh /var/tracwork/entrypoint.sh
+
 VOLUME /var/trac
 
-COPY  trac.wsgi /var/trac/trac.wsgi
-COPY  httpd.conf /var/trac/httpd.conf
-COPY  docker-entrypoint.sh /var/trac/entrypoint.sh
-
-ENTRYPOINT ["/var/trac/entrypoint.sh"]
+ENTRYPOINT ["/var/tracwork/entrypoint.sh"]
 CMD ["httpd-foreground"]
 

@@ -1,9 +1,19 @@
 #!/bin/bash
 set -eu
 
+if [ ! -d /var/trac ]
+then
+	mkdir /var/trac
+fi
+
+if [ -f /var/tracwork/trac.wsgi -a  ! -f /var/trac/trac.wsgi ]
+then
+	cp  /var/tracwork/trac.wsgi /var/trac/trac.wsgi
+fi
+
 if [ ! -f /var/trac/project/VERSION ]
 then
-        cp -f /var/trac/httpd.conf /usr/local/apache2/conf/httpd.conf
+        cp -f /var/tracwork/httpd.conf /usr/local/apache2/conf/httpd.conf
 
         trac-admin /var/trac/project initenv "Sample Project" sqlite:db/trac.db git /repo.git
         trac-admin /var/trac/project/ permission add admin TRAC_ADMIN
@@ -102,7 +112,7 @@ fi
 
 chown -R www-data:www-data /var/trac/
 chmod -R 775 /var/trac/
-rm /var/trac/httpd.conf
+rm -rf /var/tracwork
 
 httpd -k stop
 
