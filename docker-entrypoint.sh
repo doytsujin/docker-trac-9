@@ -13,8 +13,6 @@ fi
 
 if [ ! -f /var/trac/project/VERSION ]
 then
-        cp -f /var/tracwork/httpd.conf /usr/local/apache2/conf/httpd.conf
-
         trac-admin /var/trac/project initenv "Sample Project" sqlite:db/trac.db git /repo.git
         trac-admin /var/trac/project/ permission add admin TRAC_ADMIN
 
@@ -112,6 +110,7 @@ fi
 
 chown -R www-data:www-data /var/trac/
 chmod -R 775 /var/trac/
+cp -f /var/tracwork/httpd.conf /usr/local/apache2/conf/httpd.conf
 rm -rf /var/tracwork
 
 httpd -k stop
