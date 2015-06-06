@@ -96,6 +96,20 @@ then
         trac-admin $TRAC_PATH config set components tractags.wiki.wikitaginterface enabled
         trac-admin $TRAC_PATH config set components tractags.wiki.wikitagprovider enabled
 
+        trac-admin $TRAC_PATH config set account-manager authentication_url ""
+        trac-admin $TRAC_PATH config set account-manager db_htdigest_realm ""
+        trac-admin $TRAC_PATH config set account-manager force_passwd_change true
+        trac-admin $TRAC_PATH config set account-manager hash_method HtDigestHashMethod
+        trac-admin $TRAC_PATH config set account-manager htdigest_file /var/trac/.htpasswd
+        trac-admin $TRAC_PATH config set account-manager htdigest_realm Trac
+        trac-admin $TRAC_PATH config set account-manager htpasswd_file ""
+        trac-admin $TRAC_PATH config set account-manager htpasswd_hash_type crypt
+        trac-admin $TRAC_PATH config set account-manager password_file ""
+        trac-admin $TRAC_PATH config set account-manager password_store HtDigestStore
+        trac-admin $TRAC_PATH config set account-manager persistent_sessions False
+        trac-admin $TRAC_PATH config set account-manager refresh_passwd False
+        trac-admin $TRAC_PATH config set account-manager verify_email False
+
         trac-admin $TRAC_PATH config set ticket-custom blockedby text
         trac-admin $TRAC_PATH config set ticket-custom blockedby.label "Blocked By"
         trac-admin $TRAC_PATH config set ticket-custom blocking text
@@ -127,10 +141,10 @@ then
         then
                 (echo -n "$TRAC_USER:$realm:" && (echo -n "$TRAC_USER:$realm:$TRAC_PASS" | md5sum | awk '{print $1}')) >> /var/trac/.htpasswd
                 echo "add user $TRAC_USER to .htpasswd"
-        else
-                newline=`(echo -n "$TRAC_USER:$realm:" && (echo -n "$TRAC_USER:$realm:$TRAC_PASS" | md5sum | awk '{print $1}'))`
-                sed -i -e "s/^$TRAC_USER:.*$/$newline/g" .htpasswd
-                echo "update user $TRAC_USER"
+        #else
+                #newline=`(echo -n "$TRAC_USER:$realm:" && (echo -n "$TRAC_USER:$realm:$TRAC_PASS" | md5sum | awk '{print $1}'))`
+                #sed -i -e "s/^$TRAC_USER:.*$/$newline/g" .htpasswd
+                #echo "update user $TRAC_USER"
         fi
 
 else
@@ -138,5 +152,7 @@ else
         (echo -n "$TRAC_USER:$realm:" && (echo -n "$TRAC_USER:$realm:$TRAC_PASS" | md5sum | awk '{print $1}')) >> /var/trac/.htpasswd
         echo "create .htpasswd file"
 fi
+
+
 
 
