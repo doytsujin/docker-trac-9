@@ -33,6 +33,7 @@ EXPOSE 80 443
 RUN mkdir /var/tracwork
 COPY  trac.wsgi /var/tracwork/trac.wsgi
 COPY  httpd.conf /var/tracwork/httpd.conf
+COPY  set-trac-env.sh /var/tracwork/set-trac-env.sh
 COPY  docker-entrypoint.sh /var/tracwork/entrypoint.sh
 
 VOLUME /var/trac
