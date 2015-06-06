@@ -17,9 +17,8 @@ then
 fi
 
 if [ ! -f /var/trac/project/VERSION ]
-	exec /var/trac/set-trac-env.sh -o "project"
 then
-
+	exec /var/trac/set-trac-env.sh -o "project"
 fi
 
 chown -R www-data:www-data /var/trac/
